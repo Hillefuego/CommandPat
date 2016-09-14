@@ -83,16 +83,11 @@ class DrawPad extends JComponent {
                     cmdMan.newCommand(new ResizeShape(shapeMan,oldX, oldY, currentX, currentY));
                 }
                 repaint();
-                System.out.println("ellipse" +toolboxControls.ellipse);
-                System.out.println("rect" +toolboxControls.rectangle);
-                System.out.println("sel" +toolboxControls.select);
-                System.out.println("res" +toolboxControls.resize);
             }
         });
         Action undoAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("undo");
                 cmdMan.undoCommand();
                 repaint();
             }
@@ -100,7 +95,6 @@ class DrawPad extends JComponent {
         Action redoAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("redo");
                 cmdMan.redoCommand();
                 repaint();
             }

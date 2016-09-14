@@ -102,7 +102,6 @@ public class ShapeManager {
     }
 
     public void dragShapes(int oldX, int oldY, int currentX, int currentY){
-        System.out.println(" dragg");
         for (ExtShape extShape : shapes) {
             Shape shape = extShape.shape;
             Point centerPoint = new Point(currentX - (shape.getBounds().width / 2), currentY - (shape.getBounds().height / 2));
@@ -138,7 +137,6 @@ public class ShapeManager {
     }
 
     public void resizeShape(int oldX, int oldY, int currentX, int currentY){
-        System.out.println("Resize func");
         for (ExtShape extShape : shapes) {
             Shape shape = extShape.shape;
             if(extShape.isSelected) {
