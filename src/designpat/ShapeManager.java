@@ -83,6 +83,7 @@ public class ShapeManager {
             FileOutputStream fos = new FileOutputStream(file);
             try (ObjectOutputStream oos = new ObjectOutputStream(fos)) {
                 unselectShapes(shapes);
+                System.out.println(printAll());
                 oos.writeObject(shapes);
             }
         } catch (Exception ex) {
@@ -95,6 +96,7 @@ public class ShapeManager {
             FileInputStream fis = new FileInputStream("output");
             try (ObjectInputStream ois = new ObjectInputStream(fis)) {
                 shapes = (ArrayList<ExtShape>) ois.readObject();
+                System.out.println(printAll());
             }
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -152,5 +154,12 @@ public class ShapeManager {
                 }
             }
         }
+    }
+    public String printAll(){
+        StringBuilder builder = new StringBuilder();
+        shapes.stream().forEach((extShape -> {
+            builder.append(extShape.toString());
+        }));
+        return builder.toString();
     }
 }
