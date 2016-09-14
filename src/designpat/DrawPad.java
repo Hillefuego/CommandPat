@@ -5,10 +5,7 @@
  */
 package designpat;
 
-import commandPat.CommandManager;
-import commandPat.DrawEllipse;
-import commandPat.DrawRectangle;
-import commandPat.SelectShapes;
+import commandPat.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,7 +39,13 @@ class DrawPad extends JComponent {
             public void mouseDragged(MouseEvent e) {
                 currentX = e.getX();
                 currentY = e.getY();
-                dragShapes();
+                if (toolboxControls.select == true) {
+
+                    dragShapes();
+                }
+                if (toolboxControls.resize == true) {
+                    shapeMan.resizeShape(oldX,oldY,currentX,currentY);
+                }
                 repaint();
             }
         });
@@ -75,7 +78,15 @@ class DrawPad extends JComponent {
                     //Rectangle selection = new Rectangle(oldX, oldY, Math.abs(currentX - oldX), Math.abs(currentY - oldY));
                     cmdMan.newCommand(new SelectShapes(shapeMan,oldX, oldY, currentX, currentY));
                 }
+                if (toolboxControls.resize == true) {
+                    //Rectangle selection = new Rectangle(oldX, oldY, Math.abs(currentX - oldX), Math.abs(currentY - oldY));
+                    cmdMan.newCommand(new ResizeShape(shapeMan,oldX, oldY, currentX, currentY));
+                }
                 repaint();
+                System.out.println("ellipse" +toolboxControls.ellipse);
+                System.out.println("rect" +toolboxControls.rectangle);
+                System.out.println("sel" +toolboxControls.select);
+                System.out.println("res" +toolboxControls.resize);
             }
         });
         Action undoAction = new AbstractAction() {
@@ -133,34 +144,12 @@ class DrawPad extends JComponent {
         repaint();
     }
 
-
     public void dragShapes() {
         shapeMan.dragShapes(oldX, oldY, currentX, currentY);
     }
 
     public boolean cursorInBounds(Shape shape) {
         return shape.contains(currentX, currentY);
-    }
-
-    public String resizeSquaresCheck(Shape shape) {
-        double x = shape.getBounds().getX();
-        double y = shape.getBounds().getY();
-        double w = shape.getBounds().getWidth();
-        double h = shape.getBounds().getHeight();
-        Rectangle.Double rectNW = new Rectangle.Double(x - 6.0, y - 6.0, 6.0, 6.0);
-        Rectangle.Double rectNE = new Rectangle.Double(x + w + 1.0, y - 6.0, 6.0, 6.0);
-        Rectangle.Double rectSW = new Rectangle.Double(x - 6.0, y + h + 1.0, 6.0, 6.0);
-        Rectangle.Double rectSE = new Rectangle.Double(x + w + 1.0, y + h + 1.0, 6.0, 6.0);
-
-        if (cursorInBounds(rectNW)) {
-            return "NW";
-        } else if (cursorInBounds(rectNE)) {
-            return "NE";
-        } else if (cursorInBounds(rectSW)) {
-            return "SW";
-        } else if (cursorInBounds(rectSE)) {
-            return "SE";
-        } else return null;
     }
 
     public void save() {

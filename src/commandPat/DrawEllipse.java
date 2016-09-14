@@ -8,7 +8,7 @@ import designpat.ShapeManager;
  */
 public class DrawEllipse implements Command{
     private ShapeManager shapeManager;
-    ExtShape extShape;
+    private ExtShape extShape;
 
     public DrawEllipse(ShapeManager shapeManager, ExtShape extShape){
         this.shapeManager = shapeManager;

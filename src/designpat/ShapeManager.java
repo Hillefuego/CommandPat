@@ -34,6 +34,7 @@ public class ShapeManager {
             extShape.isSelected = selection.intersects(extShape.shape.getBounds()) || cursorInBounds(extShape.shape, currentX, currentY);
         }
     }
+
     public ArrayList<ExtShape> unselectShapes (ArrayList<ExtShape> shapes){
         for(ExtShape shape : shapes){
             shape.isSelected = false;
@@ -54,6 +55,7 @@ public class ShapeManager {
             }
         }
     }
+
     public void drawHighlightSquares(Graphics2D g2D, Rectangle2D r) {
         double x = r.getX();
         double y = r.getY();
@@ -66,6 +68,7 @@ public class ShapeManager {
         g2D.fill(new Rectangle.Double(x - 6.0, y + h + 1.0, 6.0, 6.0));
         g2D.fill(new Rectangle.Double(x + w + 1.0, y + h + 1.0, 6.0, 6.0));
     }
+
     public boolean cursorInBounds(Shape shape, int currentX, int currentY) {
         return shape.contains(currentX, currentY);
     }
@@ -97,23 +100,57 @@ public class ShapeManager {
             ex.printStackTrace();
         }
     }
+
     public void dragShapes(int oldX, int oldY, int currentX, int currentY){
+        System.out.println(" dragg");
         for (ExtShape extShape : shapes) {
+            Shape shape = extShape.shape;
+            Point centerPoint = new Point(currentX - (shape.getBounds().width / 2), currentY - (shape.getBounds().height / 2));
             if (extShape.isSelected && cursorInBounds(extShape.shape, currentX,currentY)) {
-                Shape shape = extShape.shape;
-                Point centerPoint = new Point(currentX - (shape.getBounds().width / 2), currentY - (shape.getBounds().height / 2));
                 if (shape instanceof Rectangle) {
-                    Rectangle rect = new Rectangle(centerPoint.x, centerPoint.y, shape.getBounds().width, shape.getBounds().height);
-                    System.out.println(rect.getBounds().toString());
-                    extShape.shape = rect;
-                    System.out.println("OldX " + oldX + ",OldY " + oldY);
-                    System.out.println("CurrentX " + currentX + ",CurrentY " + currentY);
+                    extShape.shape = new Rectangle(centerPoint.x, centerPoint.y, shape.getBounds().width, shape.getBounds().height);
                 } else if (shape instanceof Ellipse2D) {
-                    Rectangle rect = new Rectangle(centerPoint.x, centerPoint.y, shape.getBounds().width, shape.getBounds().height);
-                    System.out.println(rect.getBounds().toString());
-                    extShape.shape = new Ellipse2D.Double(rect.x, rect.y, rect.width, rect.height);
-                    System.out.println("OldX " + oldX + ",OldY " + oldY);
-                    System.out.println("CurrentX " + currentX + ",CurrentY " + currentY);
+                    extShape.shape = new Ellipse2D.Double(centerPoint.x, centerPoint.y, shape.getBounds().width, shape.getBounds().height);
+                }
+            }
+        }
+    }
+
+    public boolean resizeSquaresCheck(Shape shape, int oldX, int oldY) {
+        double x = shape.getBounds().getX();
+        double y = shape.getBounds().getY();
+        double w = shape.getBounds().getWidth();
+        double h = shape.getBounds().getHeight();
+        Rectangle.Double rectNW = new Rectangle.Double(x - 6.0, y - 6.0, 6.0, 6.0);
+        Rectangle.Double rectNE = new Rectangle.Double(x + w + 1.0, y - 6.0, 6.0, 6.0);
+        Rectangle.Double rectSW = new Rectangle.Double(x - 6.0, y + h + 1.0, 6.0, 6.0);
+        Rectangle.Double rectSE = new Rectangle.Double(x + w + 1.0, y + h + 1.0, 6.0, 6.0);
+
+        if (cursorInBounds(rectNW, oldX, oldX)) {
+            return true;
+        } else if (cursorInBounds(rectNE, oldX, oldY)) {
+            return true;
+        } else if (cursorInBounds(rectSW, oldX, oldY)) {
+            return true;
+        } else if (cursorInBounds(rectSE, oldX, oldY)) {
+            return true;
+        } else return false;
+    }
+
+    public void resizeShape(int oldX, int oldY, int currentX, int currentY){
+        System.out.println("Resize func");
+        for (ExtShape extShape : shapes) {
+            Shape shape = extShape.shape;
+            if(extShape.isSelected) {
+                double newWidth = shape.getBounds().getWidth();
+                double newHeight = extShape.shape.getBounds().getHeight();
+
+                if (shape instanceof Rectangle) {
+                    ((Rectangle) shape).setSize(currentX - ((Rectangle) shape).x, currentY - ((Rectangle) shape).y);
+                    //extShape.shape = new Rectangle(extShape.shape.getBounds().x, extShape.shape.getBounds().y, (int)newWidth + Math.abs(currentX - oldX), (int)newHeight + Math.abs(currentY - oldY));
+                } else if (shape instanceof Ellipse2D) {
+                    ((Ellipse2D) shape).setFrame(((Ellipse2D) shape).getX(),((Ellipse2D) shape).getY(),currentX - ((Ellipse2D) shape).getX(),currentY - ((Ellipse2D) shape).getY());
+                    //extShape.shape = new Ellipse2D.Double(((Ellipse2D) shape).getX(),((Ellipse2D) shape).getY(),currentX - newWidth, currentY -  newHeight) {
                 }
             }
         }

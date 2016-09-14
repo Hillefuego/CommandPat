@@ -8,7 +8,7 @@ import designpat.ShapeManager;
  */
 public class DrawRectangle implements Command {
     private ShapeManager shapeManager;
-    ExtShape extShape;
+    private ExtShape extShape;
 
     public DrawRectangle(ShapeManager shapeManager, ExtShape extShape){
         this.shapeManager = shapeManager;

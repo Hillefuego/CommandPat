@@ -52,6 +52,7 @@ public class MainFrame {
                 toolboxControls.ellipse = false;
                 toolboxControls.rectangle = true;
                 toolboxControls.select = false;
+                toolboxControls.resize = false;
             }
 
         });
@@ -60,9 +61,10 @@ public class MainFrame {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                toolboxControls.select = !toolboxControls.select;
+                toolboxControls.select = true;
                 toolboxControls.ellipse = false;
                 toolboxControls.rectangle = false;
+                toolboxControls.resize = false;
             }
         });
 
@@ -74,6 +76,7 @@ public class MainFrame {
                 toolboxControls.ellipse = true;
                 toolboxControls.rectangle = false;
                 toolboxControls.select = false;
+                toolboxControls.resize = false;
             }
         });
         
@@ -93,18 +96,32 @@ public class MainFrame {
             }
         });
 
+        JButton resizeButton = new JButton("Resize");
+        resizeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toolboxControls.ellipse = false;
+                toolboxControls.rectangle = false;
+                toolboxControls.select = false;
+                toolboxControls.resize = true;
+            }
+        });
+
         selectButton.setPreferredSize(new Dimension(100, 25));
         ellipseButton.setPreferredSize(new Dimension(100, 25));
         rectangleButton.setPreferredSize(new Dimension(100, 25));
         saveButton.setPreferredSize(new Dimension(100, 25));
         loadButton.setPreferredSize(new Dimension(100, 25));
+        resizeButton.setPreferredSize(new Dimension(100, 25));
 
         toolbox.add(ellipseButton);
         toolbox.add(rectangleButton);
         toolbox.add(selectButton);
+        toolbox.add(resizeButton);
         toolbox.add(saveButton);
         toolbox.add(loadButton);
         toolbox.add(clearButton);
+
 
         content.add(toolbox, BorderLayout.WEST);
     }

@@ -8,10 +8,10 @@ import designpat.ShapeManager;
  */
 public class SelectShapes implements Command {
     private ShapeManager shapeManager;
-    int oldX;
-    int oldY;
-    int currentX;
-    int currentY;
+    private int oldX;
+    private int oldY;
+    private int currentX;
+    private int currentY;
 
     public SelectShapes(ShapeManager shapeManager, int oldX, int oldY, int currentX, int currentY){
         this.shapeManager = shapeManager;

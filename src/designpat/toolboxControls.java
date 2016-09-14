@@ -14,5 +14,6 @@ public class toolboxControls {
     static boolean rectangle = false;
     static boolean ellipse = false;
     static boolean select = false;
+    static boolean resize = false;
     
 }

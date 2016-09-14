@@ -15,6 +15,5 @@ import java.io.Serializable;
 public class ExtShape implements Serializable {
     
     public Shape shape;
-    public boolean isSelected = false; 
-
+    public boolean isSelected = false;
 }
